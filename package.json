@@ -19,7 +19,7 @@
     "David Clark <david.dave.clark@gmail.com>",
     "Kushan Joshi <0o3ko0@gmail.com>"
   ],
-  "license": "ISC",
+  "license": "BSD 2-Clause",
   "bugs": {
     "url": "https://github.com/mapbox/validator/issues"
   },
