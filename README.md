@@ -1,6 +1,38 @@
 # Validator
 
-A tiny library for run time type assertions.
+Validator lets you validate javascript objects while being lightweight and flexible.
+
+## Table Of Contents
+
+- [Why does this exist?](#why-does-this-exist)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Basic](#basic)
+  * [Required](#required)
+  * [Composition](#composition)
+- [Assertions](#assertions)
+  * [v.assert(rootValidator, options)](#vassertrootvalidator-options)
+- [Primitive Validators](#primitive-validators)
+  * [v.boolean](#vboolean)
+  * [v.number](#vnumber)
+  * [v.plainArray](#vplainarray)
+  * [v.plainObject](#vplainobject)
+  * [v.string](#vstring)
+  * [v.date](#vdate)
+  * [v.coordinates](#vcoordinates)
+- [Higher-Order Validators](#higher-order-validators)
+  * [v.shape(validatorObj)](#vshapevalidatorobj)
+  * [v.arrayOf(validator)](#varrayofvalidator)
+  * [v.required(validator)](#vrequiredvalidator)
+  * [v.oneOfType(...validators)](#voneoftypevalidators)
+  * [v.equal(value)](#vequalvalue)
+  * [v.oneOf(...values)](#voneofvalues)
+  * [v.range([valueA, valueB])](#vrangevaluea-valueb)
+
+
+## Why does this exist?
+
+Many of the existing libraries solve a special problem like form validation or are too big to use (see [hapijs/joi](https://github.com/hapijs/joi)). We wanted something which works similar to react's [prop-types](https://github.com/facebook/prop-types), but not attached to a specific platform. So we ended up creating Validator.
 
 ## Installation
 
@@ -11,49 +43,58 @@ npm install @mapbox/validator
 ## Usage
 
 ### Basic
-The basic usage 
+
+In the example below we have a simple validation of an object and its properties. The outermost validator [`v.shape`](#vshapevalidatorobj) checks the shape of the object and then runs the inner validator [`v.arrayOf(v.string)`](#varrayofvalidator) to validate the value of `names` property. 
 
 ```javascript
-const v = require('@mapbox/validator');
+const v = require("@mapbox/validator");
 
 assertObj = v.assert(
   v.shape({
-      names: v.arrayOf(v.string)
+    names: v.arrayOf(v.string)
   })
 );
 
-assertObj({names: ['ram', 'harry']}); // pass
-assertObj({names: ['john', 987]})// fail
-assertObj({names: 'john'})// fail
+assertObj({ names: ["ram", "harry"] }); // pass
+assertObj({ names: ["john", 987] }); // fail
+assertObj({ names: "john" }); // fail
 ```
 
 ### Required
 
-Validation of each value is optional by default, which means passing `null` or `undefined` would not fail the assertion. You should wrap your validator with `v.required` in case you want strict assertion.
+By default `null` and `undefined` are acceptable values for all validators. To not allow `null`/`undefined` as acceptable values, you can pass your validator to [`v.required`](#vrequiredvalidator) to create a new validator which rejects `undefined`/`null`.
 
 ```javascript
+// without v.required
 assertObj = v.assert(
   v.shape({
-      name: v.string
+    name: v.string
   })
 );
 assertObj({}); // pass
-assertObj({name: undefined}); // pass
-assertObj({name: null}); // pass
-assertObj({name: 9}); // fail
+assertObj({ name: 'ram' }); // pass
+assertObj({ name: undefined }); // pass
+assertObj({ name: null }); // pass
+assertObj({ name: 9 }); // fail
 
+// with v.required
 strictAssertObj = v.assert(
-     v.shape({
-      name: v.required(v.string)
+  v.shape({
+    name: v.required(v.string)
   })
-)
+);
+
 strictAssertObj({}); // fail
-strictAssertObj({name: undefined}); // fail
-strictAssertObj({name: null}); // fail
+strictAssertObj({ name: 'ram' }); // pass
+strictAssertObj({ name: undefined }); // fail
+strictAssertObj({ name: null }); // fail
+strictAssertObj({ name: 9 }); // fail
 ```
 
 ### Composition
-You can compose any of the [Higher Order Validators](#higher-order-validators) to make complex validators.
+
+You can compose any of the [Higher-Order Validators](#higher-order-validators) to make complex validators.
+
 <details><summary>Example 1</summary>
 
 ```javascript
@@ -86,11 +127,14 @@ personAssert({
   family: [
     {
       name: "john",
-      relation: "father" // family.0.relation must be a "wife", "husband", "son" or "daughter".
+      relation: "father"
     }
   ]
 });
+// Throws an error
+//   family.0.relation must be a "wife", "husband", "son" or "daughter".
 ```
+
 </details>
 
 <details><summary>Example 2</summary>
@@ -107,118 +151,117 @@ const personAssert = v.assert(
 );
 
 // assertion passes
-personAssert({ prop: { person: { name: ['j', 'd'] } } });
-personAssert({ prop: { person: { name: ['jd'] } } });
+personAssert({ prop: { person: { name: ["j", "d"] } } });
+personAssert({ prop: { person: { name: ["jd"] } } });
 
 // assertion fails
-personAssert({ prop: { person: { name: 9 } } }); // prop.person.name must be an array or string.
+personAssert({ prop: { person: { name: 9 } } });
+// Throws an error
+//   prop.person.name must be an array or string.
 ```
-</details>
 
+</details>
 
 ## Assertions
 
 ### v.assert(rootValidator, options)
 
-Returns a function which accepts a value and runs the assertion on it.
+Returns a function which accepts an input value to be validated. This function throws an error if validation fails else returns void.
 
 **Parameters**
+
 - `rootValidator`: The root validator to assert values with.
 - `options`: An options object.
 - `options.apiName`: String to prefix every error message with.
 
 ```javascript
+v.assert(v.equal(5))(5); // undefined
 v.assert(v.equal(5), { apiName: "Validator" })(10); // Error: Validator: value must be a 5.
 ```
 
-### Primitive Validators
+## Primitive Validators
 
-<details><summary>v.boolean</summary>
+### v.boolean
 
 ```javascript
-const assert = v.assert(
-    v.boolean
-);
+const assert = v.assert(v.boolean);
 assert(false); // pass
-assert('true'); // fail
+assert("true"); // fail
 ```
+
 </details>
 
-<details><summary>v.number</summary>
+### v.number
 
 ```javascript
-const assert = v.assert(
-    v.number
-);
+const assert = v.assert(v.number);
 assert(9); // pass
-assert('str'); // fail
+assert("str"); // fail
 ```
+
 </details>
 
-<details><summary>v.plainArray</summary>
+### v.plainArray
 
 ```javascript
-const assert = v.assert(
-    v.plainArray
-);
+const assert = v.assert(v.plainArray);
 assert([]); // pass
 assert({}); // fail
 ```
+
 </details>
 
-<details><summary>v.plainObject</summary>
+### v.plainObject
 
 ```javascript
-const assert = v.assert(
-    v.plainObject
-);
-assert([]); // pass
+const assert = v.assert(v.plainObject);
+assert({}); // pass
 assert(new Map()); // fail
 ```
+
 </details>
 
-<details><summary>v.string</summary>
+### v.string
 
 ```javascript
-const assert = v.assert(
-    v.string
-);
-assert('str'); // pass
+const assert = v.assert(v.string);
+assert("str"); // pass
 assert(0x0); // fail
 ```
+
 </details>
 
-<details><summary>v.date</summary>
+### v.date
 
 ```javascript
-const assert = v.assert(
-    v.date
-);
+const assert = v.assert(v.date);
 assert(98765); // pass
-assert('1969-12-31T23:59:59.997Z'); // pass
+assert("1969-12-31T23:59:59.997Z"); // pass
 assert(new Date()); // pass
 assert(false); // fail
 assert({}); // fail
 ```
+
 </details>
 
-<details><summary>v.coordinates</summary>
-Passes when input is [longitude, latitude]
+### v.coordinates
+Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and inclusively between `[-90, 90]` degrees. 
 
 ```javascript
-const assert = v.assert(
-    v.coordinates
-);
+const assert = v.assert(v.coordinates);
 assert([150, 60]); // pass
 assert([60, 150]); // fail
 ```
+
 </details>
 
-## Higher Order Validators
+## Higher-Order Validators
+
 Higher Order Validators are functions that accept another validator or a value as their parameter and return a new validator.
 
 ### v.shape(validatorObj)
-Takes an object of validators and passes if the input shape matches 
+
+Takes an object of validators and returns a validator that passes if the input shape matches.
 
 ```javascript
 const assert = v.assert(
@@ -242,69 +285,63 @@ assert({
 ```
 
 ### v.arrayOf(validator)
-Takes a validator as an argument and returns a validator that passes when each nad every item of input array passes the validator.
+
+Takes a validator as an argument and returns a validator that passes if and only if every item of the input array passes the validator.
 
 ```javascript
-const assert = v.assert(
-  v.arrayOf(v.number)
-);
+const assert = v.assert(v.arrayOf(v.number));
 assert([90, 10]); // pass
-assert([90, '10']); // fail
+assert([90, "10"]); // fail
 assert(90); // fail
 ```
 
 ### v.required(validator)
-Returns a strict validator which on also does `null` and `undefined` check.
+
+Returns a strict validator which rejects `null`/`undefined` along with the validator.
+
 ```javascript
-const assert = v.assert(
-  v.arrayOf(v.required(v.number))
-);
+const assert = v.assert(v.arrayOf(v.required(v.number)));
 assert([90, 10]); // pass
 assert([90, 10, null]); // fail
 assert([90, 10, undefined]); // fail
 ```
 
-
 ### v.oneOfType(...validators)
-Takes multiple validators and returns a validator that passes if any one of them passes.
+
+Takes multiple validators and returns a validator that passes if one or more of them pass.
 
 ```javascript
-const assert = v.assert(
-  v.oneOfType(v.string, v.number)
-);
+const assert = v.assert(v.oneOfType(v.string, v.number));
 assert(90); // pass
-assert('90'); // pass
+assert("90"); // pass
 ```
 
 ### v.equal(value)
-It does a `===` comparison between `value` and `input`.
+
+Returns a validator that does a `===` comparison between `value` and `input`.
 
 ```javascript
-const assert = v.assert(
-  v.equal(985)
-);
+const assert = v.assert(v.equal(985));
 assert(985); // pass
 assert(986); // fail
 ```
 
 ### v.oneOf(...values)
-Passes if input matches (`===`) with any one of the `values`.
+
+Returns a validator that passes if input matches (`===`) with any one of the `values`.
 
 ```javascript
-const assert = v.assert(
-  v.oneOf(3.14, '3.1415', 3.1415)
-);
+const assert = v.assert(v.oneOf(3.14, "3.1415", 3.1415));
 assert(3.14); // pass
 assert(986); // fail
 ```
 
 ### v.range([valueA, valueB])
-Passes if input inclusively lies between valueA & valueB.
+
+Returns a validator that passes if input inclusively lies between `valueA` & `valueB`.
 
 ```javascript
-const assert = v.assert(
-  v.range([-10, 10])
-);
+const assert = v.assert(v.range([-10, 10]));
 assert(4); // pass
 assert(-100); // fail
 ```
