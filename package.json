@@ -1,0 +1,50 @@
+{
+  "name": "@mapbox/validator",
+  "version": "0.0.1",
+  "description": "A tiny runtime library for type assertions",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mapbox/validator.git"
+  },
+  "keywords": [
+    "assertion",
+    "type"
+  ],
+  "author": "Mapbox",
+  "contributors": [
+    "David Clark <david.dave.clark@gmail.com>",
+    "Kushan Joshi <0o3ko0@gmail.com>"
+  ],
+  "license": "BSD 2-Clause",
+  "bugs": {
+    "url": "https://github.com/mapbox/validator/issues"
+  },
+  "homepage": "https://github.com/mapbox/validator#readme",
+  "dependencies": {
+    "is-plain-obj": "^1.1.0",
+    "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-node": "^6.0.1",
+    "jest": "^23.1.0"
+  },
+  "jest": {
+    "transform": {},
+    "clearMocks": true,
+    "testEnvironment": "node",
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "collectCoverageFrom": [
+        "<rootDir>/lib/**/*.js",
+      "<rootDir>/services/**/*.js",
+      "!<rootDir>/test/**"
+    ]
+  }
+}
