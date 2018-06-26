@@ -48,7 +48,7 @@ npm install @mapbox/fusspot
 
 In the example below we have a simple validation of an object and its properties. The outermost validator [`v.shape`](#vshapevalidatorobj) checks the shape of the object and then runs the inner validator [`v.arrayOf(v.string)`](#varrayofvalidator) to validate the value of `names` property.
 
-**`@mapbox/fusspot` exports a single object for its API. In the examples below we name if `v` (for "validator").**
+**`@mapbox/fusspot` exports a single object for its API. In the examples below we name it `v` (for "validator").**
 
 ```javascript
 const v = require("@mapbox/fusspot");
