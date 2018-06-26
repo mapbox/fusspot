@@ -1,14 +1,14 @@
 {
-  "name": "@mapbox/validator",
+  "name": "@mapbox/fusspot",
   "version": "0.0.1",
   "description": "A tiny runtime library for type assertions",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mapbox/validator.git"
+    "url": "git+https://github.com/mapbox/fusspot.git"
   },
   "keywords": [
     "assertion",
@@ -21,9 +21,9 @@
   ],
   "license": "BSD 2-Clause",
   "bugs": {
-    "url": "https://github.com/mapbox/validator/issues"
+    "url": "https://github.com/mapbox/fusspot/issues"
   },
-  "homepage": "https://github.com/mapbox/validator#readme",
+  "homepage": "https://github.com/mapbox/fusspot#readme",
   "dependencies": {
     "is-plain-obj": "^1.1.0",
     "xtend": "^4.0.1"

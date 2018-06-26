@@ -1,6 +1,8 @@
-# Validator
+# @mapbox/fusspot
 
-Validator lets you validate javascript objects while being lightweight and flexible.
+Fusspot is a tiny runtime type-assertion library.
+
+It can run in the browser as well as Node, and it's lightweight, flexible, and extensible.
 
 ## Table Of Contents
 
@@ -32,22 +34,24 @@ Validator lets you validate javascript objects while being lightweight and flexi
 
 ## Why does this exist?
 
-Many of the existing libraries solve a special problem like form validation or are too big to use (see [hapijs/joi](https://github.com/hapijs/joi)). We wanted something which works similar to react's [prop-types](https://github.com/facebook/prop-types), but not attached to a specific platform. So we ended up creating Validator.
+Many existing runtime type-assertion libraries solve a special problem, like form validation or component props, or aren't great for usage in the browser, because of size or syntax. We wanted something similar to React's [prop-types](https://github.com/facebook/prop-types) but not attached to a specific use case. So we ended up creating Fusspot.
 
 ## Installation
 
 ```bash
-npm install @mapbox/validator
+npm install @mapbox/fusspot
 ```
 
 ## Usage
 
 ### Basic
 
-In the example below we have a simple validation of an object and its properties. The outermost validator [`v.shape`](#vshapevalidatorobj) checks the shape of the object and then runs the inner validator [`v.arrayOf(v.string)`](#varrayofvalidator) to validate the value of `names` property. 
+In the example below we have a simple validation of an object and its properties. The outermost validator [`v.shape`](#vshapevalidatorobj) checks the shape of the object and then runs the inner validator [`v.arrayOf(v.string)`](#varrayofvalidator) to validate the value of `names` property.
+
+**`@mapbox/fusspot` exports a single object for its API. In the examples below we name if `v` (for "validator").**
 
 ```javascript
-const v = require("@mapbox/validator");
+const v = require("@mapbox/fusspot");
 
 assertObj = v.assert(
   v.shape({
@@ -95,8 +99,6 @@ strictAssertObj({ name: 9 }); // fail
 
 You can compose any of the [Higher-Order Validators](#higher-order-validators) to make complex validators.
 
-<details><summary>Example 1</summary>
-
 ```javascript
 const personAssert = v.assert(
   v.shape({
@@ -135,10 +137,6 @@ personAssert({
 //   family.0.relation must be a "wife", "husband", "son" or "daughter".
 ```
 
-</details>
-
-<details><summary>Example 2</summary>
-
 ```javascript
 const personAssert = v.assert(
   v.shape({
@@ -159,8 +157,6 @@ personAssert({ prop: { person: { name: 9 } } });
 // Throws an error
 //   prop.person.name must be an array or string.
 ```
-
-</details>
 
 ## Assertions
 
@@ -189,8 +185,6 @@ assert(false); // pass
 assert("true"); // fail
 ```
 
-</details>
-
 ### v.number
 
 ```javascript
@@ -198,8 +192,6 @@ const assert = v.assert(v.number);
 assert(9); // pass
 assert("str"); // fail
 ```
-
-</details>
 
 ### v.plainArray
 
@@ -209,8 +201,6 @@ assert([]); // pass
 assert({}); // fail
 ```
 
-</details>
-
 ### v.plainObject
 
 ```javascript
@@ -219,8 +209,6 @@ assert({}); // pass
 assert(new Map()); // fail
 ```
 
-</details>
-
 ### v.string
 
 ```javascript
@@ -228,8 +216,6 @@ const assert = v.assert(v.string);
 assert("str"); // pass
 assert(0x0); // fail
 ```
-
-</details>
 
 ### v.date
 
@@ -242,18 +228,14 @@ assert(false); // fail
 assert({}); // fail
 ```
 
-</details>
-
 ### v.coordinates
-Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and inclusively between `[-90, 90]` degrees. 
+Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and inclusively between `[-90, 90]` degrees.
 
 ```javascript
 const assert = v.assert(v.coordinates);
 assert([150, 60]); // pass
 assert([60, 150]); // fail
 ```
-
-</details>
 
 ## Higher-Order Validators
 
