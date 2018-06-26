@@ -1,5 +1,7 @@
 # @mapbox/fusspot
 
+[![Build Status](https://travis-ci.com/mapbox/fusspot.svg?branch=master)](https://travis-ci.com/mapbox/fusspot)
+
 Fusspot is a tiny runtime type-assertion library.
 
 It can run in the browser as well as Node, and it's lightweight, flexible, and extensible.
