@@ -40,11 +40,6 @@
     "coverageReporters": [
       "text",
       "html"
-    ],
-    "collectCoverageFrom": [
-        "<rootDir>/lib/**/*.js",
-      "<rootDir>/services/**/*.js",
-      "!<rootDir>/test/**"
     ]
   }
 }
