@@ -223,6 +223,15 @@ assert({}); // pass
 assert(new Map()); // fail
 ```
 
+### v.func
+
+```javascript
+const assert = v.assert(v.func);
+assert('foo'); // fail
+assert({}); // fail
+assert(() => {}); // pass
+```
+
 ### v.string
 
 ```javascript
