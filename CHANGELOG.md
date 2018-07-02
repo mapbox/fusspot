@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.2.0
 
 - Add `v.any` primitive validator.
 - Add `v.func` primitive validator.

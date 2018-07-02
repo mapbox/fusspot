@@ -298,7 +298,7 @@ The same as [`v.shape`](#vshapevalidatorobj), but rejects the object if it conta
 
 ```javascript
 const assert = v.assert({
-  v.shape({
+  v.strictShape({
     name: v.required(v.string),
     contact: v.number
   })
