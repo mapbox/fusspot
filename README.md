@@ -17,15 +17,18 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
 - [Assertions](#assertions)
   * [v.assert(rootValidator, options)](#vassertrootvalidator-options)
 - [Primitive Validators](#primitive-validators)
+  * [v.any](#vany)
   * [v.boolean](#vboolean)
   * [v.number](#vnumber)
   * [v.plainArray](#vplainarray)
   * [v.plainObject](#vplainobject)
+  * [v.func](#vfunc)
   * [v.string](#vstring)
   * [v.date](#vdate)
   * [v.coordinates](#vcoordinates)
 - [Higher-Order Validators](#higher-order-validators)
   * [v.shape(validatorObj)](#vshapevalidatorobj)
+  * [v.strictshape(validatorObj)](#vstrictshapevalidatorobj)
   * [v.arrayOf(validator)](#varrayofvalidator)
   * [v.required(validator)](#vrequiredvalidator)
   * [v.oneOfType(...validators)](#voneoftypevalidators)
@@ -286,6 +289,37 @@ assert({
 assert({
   name: "john",
   contact: "8130325777"
+});
+```
+
+### v.strictShape(validatorObj)
+
+The same as [`v.shape`](#vshapevalidatorobj), but rejects the object if it contains any properties that are not defined in the schema.
+
+```javascript
+const assert = v.assert({
+  v.shape({
+    name: v.required(v.string),
+    contact: v.number
+  })
+});
+
+// passes, just like v.shape
+assert({
+  name: "john",
+  contact: 8130325777
+});
+
+// fails, just like v.shape
+assert({
+  name: "john",
+  contact: "8130325777"
+});
+
+// fails where v.shape would pass, because birthday is not defined in the schema
+assert({
+  name: "john",
+  birthday: '06/06/66'
 });
 ```
 
