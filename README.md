@@ -28,7 +28,7 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   * [v.coordinates](#vcoordinates)
 - [Higher-Order Validators](#higher-order-validators)
   * [v.shape(validatorObj)](#vshapevalidatorobj)
-  * [v.strictshape(validatorObj)](#vstrictshapevalidatorobj)
+  * [v.strictShape(validatorObj)](#vstrictshapevalidatorobj)
   * [v.arrayOf(validator)](#varrayofvalidator)
   * [v.required(validator)](#vrequiredvalidator)
   * [v.oneOfType(...validators)](#voneoftypevalidators)
