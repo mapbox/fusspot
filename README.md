@@ -179,6 +179,18 @@ v.assert(v.equal(5), { apiName: "Validator" })(10); // Error: Validator: value m
 
 ## Primitive Validators
 
+### v.any
+
+This is mostly useful in combination with a higher-order validator like [`v.arrayOf`](#varrayofvalidator);
+
+```javascript
+const assert = v.assert(v.any);
+assert(false); // pass
+assert("str"); // pass
+assert(8); // pass
+assert([1, 2, 3]); // pass
+```
+
 ### v.boolean
 
 ```javascript
