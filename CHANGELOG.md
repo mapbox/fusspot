@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.2.1
 
 - Fix error message formatting for `v.strictShape`.
 
