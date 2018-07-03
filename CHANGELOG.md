@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Fix error message formatting for `v.strictShape`.
+
 ## 0.2.0
 
 - Add `v.any` primitive validator.
