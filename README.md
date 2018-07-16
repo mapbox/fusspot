@@ -35,7 +35,9 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   * [v.equal(value)](#vequalvalue)
   * [v.oneOf(...values)](#voneofvalues)
   * [v.range([valueA, valueB])](#vrangevaluea-valueb)
-
+- [Custom validators](#extending-validators)
+  * [Simple](#simple)
+  * [Customizing the entire error message](#customizing-the-entire-error-message)
 
 ## Why does this exist?
 
@@ -383,4 +385,49 @@ Returns a validator that passes if input inclusively lies between `valueA` & `va
 const assert = v.assert(v.range([-10, 10]));
 assert(4); // pass
 assert(-100); // fail
+```
+
+
+## Custom validators
+One of the primary goals of Fusspot is to be customizable out of the box. There are multiple ways to which one can create a custom validator. 
+
+### Simple
+A simple custom validator is nothing but a function which accepts the input `value` and returns a `string` if the input `value` doesn't pass the test. The `string` returned would then be used to show a helpful error to users. Below is an example of a path validator for node environment.
+
+```javascript
+const path = require('path');
+
+function validateAbsolutePaths(value) {
+  if (typeof value !== 'string' || !path.isAbsolute(value)) {
+    return 'absolute path';
+  }
+}
+
+const assert = v.assert(validateAbsolutePaths);
+assert('../Users'); // fail
+// Error: value must be an absolute path.
+assert('/Users'); // pass
+```
+
+### Customizing the entire error message 
+To customize the entire error message, a validator can return a function. This function gets called with an object containing
+ - **path**: This is an array containing the location error. If an error is in 
+ - **apiName**: The value of [options.apiName](#vassertrootvalidator-options) passed to the assert which would be running this validator.
+```javascript
+function validateHexColour(value) {
+  if (typeof value !== "string" || !/^#[0-9A-F]{6}$/i.test(value)) {
+    return ({ apiName, path }) =>
+      `${apiName}: Colour(${value}) at ${path.join("/")} is not valid hex colour`;
+  }
+}
+
+const assert = v.assert(
+  v.shape({
+    colours: v.arrayOf(validateHexColour)
+  })
+);
+
+assert({ colours: ["#eoz"] }); // fail
+// Error: undefined: Colour(true) at colours/0 is not valid hex colour
+assert({ colours: ["#abcdef"] }); // pass
 ```
