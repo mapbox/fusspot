@@ -255,7 +255,7 @@ assert({}); // fail
 ```
 
 ### v.coordinates
-Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and inclusively between `[-90, 90]` degrees.
+Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and latitude inclusively between `[-90, 90]` degrees.
 
 ```javascript
 const assert = v.assert(v.coordinates);
@@ -265,7 +265,7 @@ assert([60, 150]); // fail
 
 ## Higher-Order Validators
 
-Higher Order Validators are functions that accept another validator or a value as their parameter and return a new validator.
+Higher-Order Validators are functions that accept another validator or a value as their parameter and return a new validator.
 
 ### v.shape(validatorObj)
 
