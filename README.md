@@ -389,10 +389,11 @@ assert(-100); // fail
 
 
 ## Custom validators
-One of the primary goals of Fusspot is to be customizable out of the box. There are multiple ways to which one can create a custom validator. 
+One of the primary goals of Fusspot is to be customizable out of the box. There are multiple ways to which one can create a custom validator. After creating a custom validator you can simply use it just like a regular validator i.e. pass it to `v.assert()` or use it with [Higher-Order Validators](#higher-order-validators).
+
 
 ### Simple
-A simple custom validator is nothing but a function which accepts the input `value` and returns a `string` if the input `value` doesn't pass the test. The `string` returned would then be used to show a helpful error to users. Below is an example of a path validator for node environment.
+A simple custom validator is a function which accepts the input `value` and returns a `string` if and only if the input `value` doesn't pass the test. This `string` should be a noun phrase describing the expected value type,  which would be inserted into the error message like this `value must be a(n) <returned_string>`. Below is an example of a path validator for node environment.
 
 ```javascript
 const path = require('path');
@@ -407,17 +408,18 @@ const assert = v.assert(validateAbsolutePaths);
 assert('../Users'); // fail
 // Error: value must be an absolute path.
 assert('/Users'); // pass
+
+**For more examples look at the [src code](https://github.com/mapbox/fusspot/blob/master/lib/index.js#L238).**
 ```
 
 ### Customizing the entire error message 
-To customize the entire error message, a validator can return a function. This function gets called with an object containing
- - **path**: This is an array containing the location error. If an error is in 
- - **apiName**: The value of [options.apiName](#vassertrootvalidator-options) passed to the assert which would be running this validator.
+ If you need more control over the error message, your validator can return a function `({path}) => '<my_custom_error_message>'` for custom messages, where `path` is an array containing the path _*(property name for objects and index for arrays)*_ needed to traverse the input object to reach the value. The example below help illustrate this feature.
+
 ```javascript
 function validateHexColour(value) {
   if (typeof value !== "string" || !/^#[0-9A-F]{6}$/i.test(value)) {
-    return ({ apiName, path }) =>
-      `${apiName}: Colour(${value}) at ${path.join("/")} is not valid hex colour`;
+    return ({ path }) =>
+      `The input value '${value}' at ${path.join(".")} is not a valid hex colour.`;
   }
 }
 
@@ -427,7 +429,8 @@ const assert = v.assert(
   })
 );
 
-assert({ colours: ["#eoz"] }); // fail
-// Error: undefined: Colour(true) at colours/0 is not valid hex colour
+assert({ colours: ["#dedede", "#eoz"] }); // fail
+// Error: The input value '#eoz' at colours.1 is not a valid hex colour.
 assert({ colours: ["#abcdef"] }); // pass
 ```
+
