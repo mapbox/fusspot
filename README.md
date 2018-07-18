@@ -35,7 +35,9 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   * [v.equal(value)](#vequalvalue)
   * [v.oneOf(...values)](#voneofvalues)
   * [v.range([valueA, valueB])](#vrangevaluea-valueb)
-
+- [Custom validators](#extending-validators)
+  * [Simple](#simple)
+  * [Customizing the entire error message](#customizing-the-entire-error-message)
 
 ## Why does this exist?
 
@@ -384,3 +386,51 @@ const assert = v.assert(v.range([-10, 10]));
 assert(4); // pass
 assert(-100); // fail
 ```
+
+
+## Custom validators
+One of the primary goals of Fusspot is to be customizable out of the box. There are multiple ways to which one can create a custom validator. After creating a custom validator you can simply use it just like a regular validator i.e. pass it to `v.assert()` or use it with [Higher-Order Validators](#higher-order-validators).
+
+
+### Simple
+A simple custom validator is a function which accepts the input `value` and returns a `string` if and only if the input `value` doesn't pass the test. This `string` should be a noun phrase describing the expected value type,  which would be inserted into the error message like this `value must be a(n) <returned_string>`. Below is an example of a path validator for node environment.
+
+```javascript
+const path = require('path');
+
+function validateAbsolutePaths(value) {
+  if (typeof value !== 'string' || !path.isAbsolute(value)) {
+    return 'absolute path';
+  }
+}
+
+const assert = v.assert(validateAbsolutePaths);
+assert('../Users'); // fail
+// Error: value must be an absolute path.
+assert('/Users'); // pass
+
+**For more examples look at the [src code](https://github.com/mapbox/fusspot/blob/master/lib/index.js#L238).**
+```
+
+### Customizing the entire error message 
+ If you need more control over the error message, your validator can return a function `({path}) => '<my_custom_error_message>'` for custom messages, where `path` is an array containing the path _*(property name for objects and index for arrays)*_ needed to traverse the input object to reach the value. The example below help illustrate this feature.
+
+```javascript
+function validateHexColour(value) {
+  if (typeof value !== "string" || !/^#[0-9A-F]{6}$/i.test(value)) {
+    return ({ path }) =>
+      `The input value '${value}' at ${path.join(".")} is not a valid hex colour.`;
+  }
+}
+
+const assert = v.assert(
+  v.shape({
+    colours: v.arrayOf(validateHexColour)
+  })
+);
+
+assert({ colours: ["#dedede", "#eoz"] }); // fail
+// Error: The input value '#eoz' at colours.1 is not a valid hex colour.
+assert({ colours: ["#abcdef"] }); // pass
+```
+
