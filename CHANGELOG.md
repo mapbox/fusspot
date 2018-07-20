@@ -3,6 +3,7 @@
 ## HEAD
 
 - Remove `v.date` primitive validator, which wasn't generic enough default inclusion.
+- Clean up the formatting of lists in error messages.
 
 ## 0.2.1
 
