@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Remove `v.date` primitive validator, which wasn't generic enough default inclusion.
+
 ## 0.2.1
 
 - Fix error message formatting for `v.strictShape`.
