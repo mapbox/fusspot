@@ -11,32 +11,32 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
 - [Why does this exist?](#why-does-this-exist)
 - [Installation](#installation)
 - [Usage](#usage)
-  * [Basic](#basic)
-  * [Required](#required)
-  * [Composition](#composition)
+  - [Basic](#basic)
+  - [Required](#required)
+  - [Composition](#composition)
 - [Assertions](#assertions)
-  * [v.assert(rootValidator, options)](#vassertrootvalidator-options)
+  - [v.assert(rootValidator, options)](#vassertrootvalidator-options)
 - [Primitive Validators](#primitive-validators)
-  * [v.any](#vany)
-  * [v.boolean](#vboolean)
-  * [v.number](#vnumber)
-  * [v.plainArray](#vplainarray)
-  * [v.plainObject](#vplainobject)
-  * [v.func](#vfunc)
-  * [v.string](#vstring)
-  * [v.coordinates](#vcoordinates)
+  - [v.any](#vany)
+  - [v.boolean](#vboolean)
+  - [v.number](#vnumber)
+  - [v.plainArray](#vplainarray)
+  - [v.plainObject](#vplainobject)
+  - [v.func](#vfunc)
+  - [v.string](#vstring)
+  - [v.coordinates](#vcoordinates)
 - [Higher-Order Validators](#higher-order-validators)
-  * [v.shape(validatorObj)](#vshapevalidatorobj)
-  * [v.strictShape(validatorObj)](#vstrictshapevalidatorobj)
-  * [v.arrayOf(validator)](#varrayofvalidator)
-  * [v.required(validator)](#vrequiredvalidator)
-  * [v.oneOfType(...validators)](#voneoftypevalidators)
-  * [v.equal(value)](#vequalvalue)
-  * [v.oneOf(...values)](#voneofvalues)
-  * [v.range([valueA, valueB])](#vrangevaluea-valueb)
-- [Custom validators](#extending-validators)
-  * [Simple](#simple)
-  * [Customizing the entire error message](#customizing-the-entire-error-message)
+  - [v.shape(validatorObj)](#vshapevalidatorobj)
+  - [v.strictShape(validatorObj)](#vstrictshapevalidatorobj)
+  - [v.arrayOf(validator)](#varrayofvalidator)
+  - [v.required(validator)](#vrequiredvalidator)
+  - [v.oneOfType(...validators)](#voneoftypevalidators)
+  - [v.equal(value)](#vequalvalue)
+  - [v.oneOf(...values)](#voneofvalues)
+  - [v.range(\[valueA, valueB\])](#vrangevaluea-valueb)
+- [Custom validators](#custom-validators)
+  - [Simple](#simple)
+  - [Customizing the entire error message](#customizing-the-entire-error-message)
 
 ## Why does this exist?
 
@@ -245,6 +245,7 @@ assert(0x0); // fail
 ```
 
 ### v.coordinates
+
 Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and latitude inclusively between `[-90, 90]` degrees.
 
 ```javascript
@@ -365,7 +366,7 @@ assert(3.14); // pass
 assert(986); // fail
 ```
 
-### v.range([valueA, valueB])
+### v.range(\[valueA, valueB])
 
 Returns a validator that passes if input inclusively lies between `valueA` & `valueB`.
 
@@ -375,12 +376,12 @@ assert(4); // pass
 assert(-100); // fail
 ```
 
-
 ## Custom validators
+
 One of the primary goals of Fusspot is to be customizable out of the box. There are multiple ways to which one can create a custom validator. After creating a custom validator you can simply use it just like a regular validator i.e. pass it to `v.assert()` or use it with [Higher-Order Validators](#higher-order-validators).
 
-
 ### Simple
+
 A simple custom validator is a function which accepts the input `value` and returns a `string` if and only if the input `value` doesn't pass the test. This `string` should be a noun phrase describing the expected value type,  which would be inserted into the error message like this `value must be a(n) <returned_string>`. Below is an example of a path validator for node environment.
 
 ```javascript
@@ -401,7 +402,8 @@ assert('/Users'); // pass
 ```
 
 ### Customizing the entire error message
- If you need more control over the error message, your validator can return a function `({path}) => '<my_custom_error_message>'` for custom messages, where `path` is an array containing the path _*(property name for objects and index for arrays)*_ needed to traverse the input object to reach the value. The example below help illustrate this feature.
+
+ If you need more control over the error message, your validator can return a function `({path}) => '<my_custom_error_message>'` for custom messages, where `path` is an array containing the path **(property name for objects and index for arrays)** needed to traverse the input object to reach the value. The example below help illustrate this feature.
 
 ```javascript
 function validateHexColour(value) {
@@ -421,4 +423,3 @@ assert({ colours: ["#dedede", "#eoz"] }); // fail
 // Error: The input value '#eoz' at colours.1 is not a valid hex colour.
 assert({ colours: ["#abcdef"] }); // pass
 ```
-
