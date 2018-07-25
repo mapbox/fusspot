@@ -24,7 +24,6 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   * [v.plainObject](#vplainobject)
   * [v.func](#vfunc)
   * [v.string](#vstring)
-  * [v.date](#vdate)
   * [v.coordinates](#vcoordinates)
 - [Higher-Order Validators](#higher-order-validators)
   * [v.shape(validatorObj)](#vshapevalidatorobj)
@@ -245,17 +244,6 @@ assert("str"); // pass
 assert(0x0); // fail
 ```
 
-### v.date
-
-```javascript
-const assert = v.assert(v.date);
-assert(98765); // pass
-assert("1969-12-31T23:59:59.997Z"); // pass
-assert(new Date()); // pass
-assert(false); // fail
-assert({}); // fail
-```
-
 ### v.coordinates
 Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and latitude inclusively between `[-90, 90]` degrees.
 
@@ -412,7 +400,7 @@ assert('/Users'); // pass
 **For more examples look at the [src code](https://github.com/mapbox/fusspot/blob/master/lib/index.js#L238).**
 ```
 
-### Customizing the entire error message 
+### Customizing the entire error message
  If you need more control over the error message, your validator can return a function `({path}) => '<my_custom_error_message>'` for custom messages, where `path` is an array containing the path _*(property name for objects and index for arrays)*_ needed to traverse the input object to reach the value. The example below help illustrate this feature.
 
 ```javascript
