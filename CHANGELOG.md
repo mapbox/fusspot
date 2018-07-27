@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Improve error message whitespaces and indefinite articles.
+
 ## 0.3.0
 
 - Remove `v.date` primitive validator, which wasn't generic enough default inclusion.
