@@ -24,11 +24,11 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   - [v.plainObject](#vplainobject)
   - [v.func](#vfunc)
   - [v.string](#vstring)
-  - [v.coordinates](#vcoordinates)
 - [Higher-Order Validators](#higher-order-validators)
   - [v.shape(validatorObj)](#vshapevalidatorobj)
   - [v.strictShape(validatorObj)](#vstrictshapevalidatorobj)
   - [v.arrayOf(validator)](#varrayofvalidator)
+  - [v.tuple(...validators)](#vtuplevalidators)
   - [v.required(validator)](#vrequiredvalidator)
   - [v.oneOfType(...validators)](#voneoftypevalidators)
   - [v.equal(value)](#vequalvalue)
@@ -244,16 +244,6 @@ assert("str"); // pass
 assert(0x0); // fail
 ```
 
-### v.coordinates
-
-Passes when input is an `[longitude, latitude]`, where longitude lies inclusively between `[-180, 180]` degrees and latitude inclusively between `[-90, 90]` degrees.
-
-```javascript
-const assert = v.assert(v.coordinates);
-assert([150, 60]); // pass
-assert([60, 150]); // fail
-```
-
 ## Higher-Order Validators
 
 Higher-Order Validators are functions that accept another validator or a value as their parameter and return a new validator.
@@ -322,6 +312,20 @@ Takes a validator as an argument and returns a validator that passes if and only
 const assert = v.assert(v.arrayOf(v.number));
 assert([90, 10]); // pass
 assert([90, "10"]); // fail
+assert(90); // fail
+```
+
+### v.tuple(...validators)
+
+Takes multiple validators that correspond to items in the input array and returns a validator that passes if and only if every item of the input array passes the corresponding validator.
+
+A "tuple" is an array with a fixed number of items, each item with its own specific type. One common example of a tuple is coordinates described by a two-item array, `[longitude, latitude]`.
+
+```javascript
+const assert = v.assert(v.tuple(v.range(-180, 180), v.range(-90, 90)));
+assert([90, 10]); // pass
+assert([90, "10"]); // fail
+assert([90, 200]); // fail
 assert(90); // fail
 ```
 
