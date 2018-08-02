@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.4.0
 
 - **Breaking:** Remove `v.coordinates` primitive validator. The equivalent be accomplished by using the new `v.tuple` validator with `v.range` items.
 - Add `v.tuple` higher-order validator.
