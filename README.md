@@ -140,7 +140,7 @@ personAssert({
   ]
 });
 // Throws an error
-//   pets.0.type must be a "dog", "pig", "cow" or "bird".
+//   pets.0.type must be "dog", "pig", "cow", or "bird".
 ```
 
 ```javascript
