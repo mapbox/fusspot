@@ -109,10 +109,10 @@ You can compose any of the [Higher-Order Validators](#higher-order-validators) t
 const personAssert = v.assert(
   v.shape({
     name: v.required(v.string),
-    family: v.arrayOf(
+    pets: v.arrayOf(
       v.shape({
         name: v.required(v.string),
-        relation: v.oneOf("wife", "husband", "son", "daughter")
+        type: v.oneOf("dog", "pig", "cow", "bird")
       })
     )
   })
@@ -121,10 +121,10 @@ const personAssert = v.assert(
 // assertion passes
 personAssert({
   name: "john",
-  family: [
+  pets: [
     {
       name: "susy",
-      relation: "wife"
+      type: "bird"
     }
   ]
 });
@@ -132,15 +132,15 @@ personAssert({
 // assertion fails
 personAssert({
   name: "harry",
-  family: [
+  pets: [
     {
       name: "john",
-      relation: "father"
+      type: "mechanic"
     }
   ]
 });
 // Throws an error
-//   family.0.relation must be a "wife", "husband", "son" or "daughter".
+//   pets.0.type must be a "dog", "pig", "cow" or "bird".
 ```
 
 ```javascript
