@@ -1,0 +1,11 @@
+{
+  "*.js": [
+    "eslint",
+    "prettier --write",
+    "git add"
+  ],
+  "*.md": [
+    "remark-preset-davidtheclark",
+    "git add"
+  ]
+}
