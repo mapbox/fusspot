@@ -3,6 +3,8 @@
 ## HEAD
 
 - Add `v.nonEmptyString` primitive validator.
+- Rename `options.apiName` to `options.description`. (`options.apiName` still works but is deprecated.)
+- Allow the second argument to `v.assert` to be a string, which is interpreted as `options.description`.
 
 ## 0.4.0
 
