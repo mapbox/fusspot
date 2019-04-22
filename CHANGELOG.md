@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Add `v.nonEmptyString` primitive validator.
+
 ## 0.4.0
 
 - **Breaking:** Remove `v.coordinates` primitive validator. The equivalent be accomplished by using the new `v.tuple` validator with `v.range` items.

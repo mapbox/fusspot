@@ -24,6 +24,7 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   - [v.plainObject](#vplainobject)
   - [v.func](#vfunc)
   - [v.string](#vstring)
+  - [v.nonEmptyString](#vnonemptystring)
 - [Higher-Order Validators](#higher-order-validators)
   - [v.shape(validatorObj)](#vshapevalidatorobj)
   - [v.strictShape(validatorObj)](#vstrictshapevalidatorobj)
@@ -242,6 +243,15 @@ assert(() => {}); // pass
 const assert = v.assert(v.string);
 assert("str"); // pass
 assert(0x0); // fail
+```
+
+### v.nonEmptyString
+
+```javascript
+const assert = v.assert(v.nonEmptyString);
+assert("str"); // pass
+assert(""); // fail
+assert(7); // fail
 ```
 
 ## Higher-Order Validators
