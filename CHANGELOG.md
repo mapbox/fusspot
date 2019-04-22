@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.5.0
 
 - Add `v.nonEmptyString` primitive validator.
 - Rename `options.apiName` to `options.description`. (`options.apiName` still works but is deprecated.)
