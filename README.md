@@ -174,12 +174,13 @@ Returns a function which accepts an input value to be validated. This function t
 **Parameters**
 
 - `rootValidator`: The root validator to assert values with.
-- `options`: An options object.
-- `options.apiName`: String to prefix every error message with.
+- `options`: An options object or a string. If it is a string, it will be interpreted as `options.description`.
+- `options.description`: A string to prefix every error message with. For example, if `description` is `myFunc` and a string is invalid, the error message with be `myFunc: value must be a string`. (Formerly `options.apiName`, which works the same but is deprecated.)
 
 ```javascript
 v.assert(v.equal(5))(5); // undefined
-v.assert(v.equal(5), { apiName: "Validator" })(10); // Error: Validator: value must be a 5.
+v.assert(v.equal(5), { description: "myFunction" })(10); // Error: myFunction: value must be 5.
+v.assert(v.equal(5), 'Price')(10); // Error: Price: value must be 5.
 ```
 
 ## Primitive Validators
