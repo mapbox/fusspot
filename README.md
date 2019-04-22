@@ -179,7 +179,8 @@ Returns a function which accepts an input value to be validated. This function t
 
 ```javascript
 v.assert(v.equal(5))(5); // undefined
-v.assert(v.equal(5), { apiName: "Validator" })(10); // Error: Validator: value must be a 5.
+v.assert(v.equal(5), { description: "myFunction" })(10); // Error: myFunction: value must be 5.
+v.assert(v.equal(5), 'Price')(10); // Error: Price: value must be 5.
 ```
 
 ## Primitive Validators
