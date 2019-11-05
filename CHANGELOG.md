@@ -1,5 +1,10 @@
 # Changelog
 
+## HEAD
+
+- Add `v.date` primitive validator.
+- Add `v.instanceOf` meta validator.
+
 ## 0.5.0
 
 - Add `v.nonEmptyString` primitive validator.

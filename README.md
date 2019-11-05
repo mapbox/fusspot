@@ -23,6 +23,7 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   - [v.plainArray](#vplainarray)
   - [v.plainObject](#vplainobject)
   - [v.func](#vfunc)
+  - [v.date](#vdate)
   - [v.string](#vstring)
   - [v.nonEmptyString](#vnonemptystring)
 - [Higher-Order Validators](#higher-order-validators)
@@ -35,6 +36,7 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   - [v.equal(value)](#vequalvalue)
   - [v.oneOf(...values)](#voneofvalues)
   - [v.range(\[valueA, valueB\])](#vrangevaluea-valueb)
+  - [v.instanceOf(Class)](#vinstanceofclass)
 - [Custom validators](#custom-validators)
   - [Simple](#simple)
   - [Customizing the entire error message](#customizing-the-entire-error-message)
@@ -238,6 +240,18 @@ assert({}); // fail
 assert(() => {}); // pass
 ```
 
+### v.date
+
+Passes if input is a `Date` that is valid (`input.toString() !== 'Invalid Date'`).
+
+```javascript
+const assert = v.assert(v.date);
+assert('foo'); // fail
+assert(new Date('2019-99-99')); // fail
+assert(new Date()); // pass
+assert(new Date('2019-10-04')); // pass
+```
+
 ### v.string
 
 ```javascript
@@ -389,6 +403,21 @@ Returns a validator that passes if input inclusively lies between `valueA` & `va
 const assert = v.assert(v.range([-10, 10]));
 assert(4); // pass
 assert(-100); // fail
+```
+
+### v.instanceOf(Class)
+
+Returns a validator that passes if input is an instance of the provided `Class`, as determined by JavaScript's `instanceof` operator.
+
+```javascript
+class Foo {}
+class Bar {}
+class Baz extends Bar {}
+
+const assert = v.assert(v.instanceOf(Bar))
+assert(new Bar()); // pass
+assert(new Baz()); // pass
+assert(new Foo()); // fail
 ```
 
 ## Custom validators
