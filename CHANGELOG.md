@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.6.0
 
 - Add `v.date` primitive validator.
 - Add `v.instanceOf` meta validator.
