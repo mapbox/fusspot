@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Add `v.objectOf` higher-order validator.
+
 ## 0.6.0
 
 - Add `v.date` primitive validator.

@@ -29,6 +29,7 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
 - [Higher-Order Validators](#higher-order-validators)
   - [v.shape(validatorObj)](#vshapevalidatorobj)
   - [v.strictShape(validatorObj)](#vstrictshapevalidatorobj)
+  - [v.objectOf(validator)](#vobjectofvalidator)
   - [v.arrayOf(validator)](#varrayofvalidator)
   - [v.tuple(...validators)](#vtuplevalidators)
   - [v.required(validator)](#vrequiredvalidator)
@@ -326,6 +327,28 @@ assert({
 assert({
   name: "john",
   birthday: '06/06/66'
+});
+```
+
+### v.objectOf(validator)
+
+Takes a validator as an argument and returns a validator that passes if and only if every value in the input object passess the validator.
+
+```javascript
+const assert = v.assert({
+  v.objectOf({ name: v.required(v.string) })
+});
+
+// pass
+assert({
+  a: { name: 'foo' },
+  b: { name: 'bar' }
+});
+
+// fail
+assert({
+  a: { name: 'foo' },
+  b: 77
 });
 ```
 
