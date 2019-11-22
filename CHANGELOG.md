@@ -1,6 +1,6 @@
 # Changelog
 
-## HEAD
+## 0.7.0
 
 - Add `v.objectOf` higher-order validator.
 
