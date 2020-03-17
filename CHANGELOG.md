@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2
+
+- Reverts `0.7.1` 
+
 ## 0.7.1
 
 - Fix `v.strictShape` when dealing with empty objects.
