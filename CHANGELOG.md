@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Fix `v.strictShape` when dealing with empty objects.
+
 ## 0.7.0
 
 - Add `v.objectOf` higher-order validator.
