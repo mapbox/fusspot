@@ -1,5 +1,9 @@
 # Changelog
 
+## HEAD
+
+- Add `v.finite` primitive validator.
+
 ## 0.7.2
 
 - Reverts `0.7.1` 

@@ -20,6 +20,7 @@ It can run in the browser as well as Node, and it's lightweight, flexible, and e
   - [v.any](#vany)
   - [v.boolean](#vboolean)
   - [v.number](#vnumber)
+  - [v.finite](#vfinite)
   - [v.plainArray](#vplainarray)
   - [v.plainObject](#vplainobject)
   - [v.func](#vfunc)
@@ -214,6 +215,15 @@ assert("true"); // fail
 const assert = v.assert(v.number);
 assert(9); // pass
 assert("str"); // fail
+```
+
+### v.finite
+
+```javascript
+const assert = v.assert(v.finite);
+assert(9); // pass
+assert("str"); // fail
+assert(NaN); // fail
 ```
 
 ### v.plainArray
