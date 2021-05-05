@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+
+- Fix SPDX identifier
+
 ## 0.8.0
 
 - Add `v.finite` primitive validator.
