@@ -314,12 +314,12 @@ assert({
 The same as [`v.shape`](#vshapevalidatorobj), but rejects the object if it contains any properties that are not defined in the schema.
 
 ```javascript
-const assert = v.assert({
+const assert = v.assert(
   v.strictShape({
     name: v.required(v.string),
     contact: v.number
   })
-});
+);
 
 // passes, just like v.shape
 assert({
@@ -345,9 +345,9 @@ assert({
 Takes a validator as an argument and returns a validator that passes if and only if every value in the input object passess the validator.
 
 ```javascript
-const assert = v.assert({
+const assert = v.assert(
   v.objectOf({ name: v.required(v.string) })
-});
+);
 
 // pass
 assert({
