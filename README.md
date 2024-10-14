@@ -1,6 +1,6 @@
 # @mapbox/fusspot
 
-[![Build Status](https://travis-ci.com/mapbox/fusspot.svg?branch=master)](https://travis-ci.com/mapbox/fusspot)
+![build](https://github.com/mapbox/fusspot/actions/workflows/ci.yml/badge.svg?branch=master)
 
 Fusspot is a tiny runtime type-assertion library.
 
