@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/fusspot",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A tiny runtime library for type assertions",
   "main": "lib/index.js",
   "scripts": {
@@ -50,5 +50,8 @@
       "text",
       "html"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
